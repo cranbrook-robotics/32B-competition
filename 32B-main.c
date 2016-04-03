@@ -24,7 +24,7 @@
 
 
 // Controller coefficients
-const float Kq = 0.04, Kd = 0, Ki = 0.02;
+const float Kq = 0.07, Kd = 0, Ki = 0.04;
 
 
 FlywheelSpeedController ctlrL, ctlrR;
