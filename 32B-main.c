@@ -21,8 +21,8 @@ FlywheelSpeedController ctlrL, ctlrR;
 
 bool isFlywheelOn = false;
 const float MinFlyspeed = 16.;
-const float MaxFlyspeed = 24.;
-float targetFlywheelSpeed = MinFlyspeed;
+const float MaxFlyspeed = 25.;
+float targetFlywheelSpeed = MaxFlyspeed;
 
 
 task FlywheelSpeedControl() {
@@ -64,7 +64,7 @@ void pre_auton()
 	const tMotor motorPortsL[] = {mFlyLF, mFlyLB};
 	const tMotor motorPortsR[] = {mFlyRF, mFlyRB};
 
-	const float Kq = 0.06, Ki = 0.02, Kd = 0;
+	const float Kq = 0.1, Ki = 0.05, Kd = 0;
 
 	FlywheelSpeedControllerInit( ctlrL, Kq, Ki, Kd, 1.2908, 0.0602, motorPortsL, 2, M393Turbo );
 	FlywheelSpeedControllerInit( ctlrR, Kq, Ki, Kd, 1.4517, 0.0560, motorPortsR, 2, M393Turbo );
@@ -81,6 +81,19 @@ void pre_auton()
 
 task autonomous() {
 	startTask(FlywheelSpeedControl);
+	setDrive(127, 127);
+	delay(500);
+	setDrive(0, 0);
+	delay(100);
+	isFlywheelOn=true;
+	targetFlywheelSpeed=MaxFlyspeed;
+	delay(1000);
+	for(int reps=0; reps<4; reps+=1) {
+		motor[mIntake] = 127;
+		delay(500);
+		motor[mIntake] = 0;
+		delay(1000);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -94,6 +107,9 @@ task autonomous() {
 
 
 task usercontrol() {
+
+
+
 	startTask(FlywheelSpeedControl);
 
 	time1[T1] = 0;
