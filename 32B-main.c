@@ -92,6 +92,7 @@ task autonomous() {
 //
 /////////////////////////////////////////////////////////////////////////////////////////
 
+
 task usercontrol() {
 	startTask(FlywheelSpeedControl);
 
@@ -100,7 +101,8 @@ task usercontrol() {
 	while (true) {
 		setDrive( vexRT[ChJoyLY], vexRT[ChJoyRY] );
 
-		motor[mIntake] = buttonsToPower(Btn6D, Btn6U);
+		motor[mIntake] = buttonGroupToPower(Btn5);
+		motor[mPuncher] = buttonToPower(Btn6U);
 
 		if( vexRT[Btn7U] ){
 			isFlywheelOn = true;
